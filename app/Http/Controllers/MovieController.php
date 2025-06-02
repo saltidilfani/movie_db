@@ -11,7 +11,7 @@ class MovieController extends Controller
 {
     public function homepage()
     {
-        $movies = Movie::latest()->paginate(6);
+        $movies = Movie::with('category')->latest()->paginate(6);
         return view('homepage', compact('movies'));
     }
 

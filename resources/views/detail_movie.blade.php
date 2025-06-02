@@ -6,7 +6,8 @@
         <div class="row g-0">
             <div class="col-md-4">
                 @if ($movie->cover_image)
-                    <img src="{{ asset('covers/' . $movie->cover_image) }}" class="img-fluid rounded-start" alt="{{ $movie->title }}">
+                    {{-- Panggil gambar dari storage --}}
+                    <img src="{{ asset('storage/' . $movie->cover_image) }}" class="img-fluid rounded-start" alt="{{ $movie->title }}">
                 @else
                     <img src="https://via.placeholder.com/200x300?text=No+Image" class="img-fluid rounded-start" alt="No Cover">
                 @endif
