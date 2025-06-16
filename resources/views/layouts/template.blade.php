@@ -20,7 +20,7 @@
             </li>
             @auth
             <li class="nav-item">
-                <a class="nav-link" href="/create-movie">Input Movie</a>
+                <a class="nav-link" href="/create-movies">Input Movie</a>
             </li>
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -56,7 +56,7 @@
     </div>
 
     <div class="bg-success text-white text-center py-2">
-        Copyright 2025 &copy; Teknologi Informasi
+        Copyright 2025 &copy; Salti Dilfani | 2301093007
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
   </body>

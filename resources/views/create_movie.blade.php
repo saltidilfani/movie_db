@@ -68,14 +68,15 @@
         </div>
 
         {{-- Cover Image --}}
-        <div class="mb-3 row">
-            <label for="cover" class="col-sm-2 col-form-label">Cover Image</label>
-            <div class="col-sm-6">
-                <input type="file" id="cover" name="cover"
-                    class="form-control @error('cover') is-invalid @enderror">
-                @error('cover') <div class="invalid-feedback">{{ $message }}</div> @enderror
-            </div>
-        </div>
+<div class="mb-3 row">
+    <label for="cover_image" class="col-sm-2 col-form-label">Cover Image</label>
+    <div class="col-sm-6">
+        <input type="file" id="cover_image" name="cover_image"
+            class="form-control @error('cover_image') is-invalid @enderror">
+        @error('cover_image') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    </div>
+</div>
+
 
         {{-- Submit --}}
         <div class="mb-3 row">

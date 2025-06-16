@@ -28,35 +28,34 @@ class MovieController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|max:255',
-        'synopsis' => 'nullable',
-        'category_id' => 'required|exists:categories,id',
-        'year' => 'required|digits:4|integer',
-        'actors' => 'nullable',
-        'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-    ]);
+    {
+        $request->validate([
+            'title' => 'required|max:255',
+            'synopsis' => 'nullable',
+            'category_id' => 'required|exists:categories,id',
+            'year' => 'required|digits:4|integer',
+            'actors' => 'nullable',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-    // Upload cover image
-    $coverName = null;
-    if ($request->hasFile('cover')) {
-    $coverName = $request->file('cover')->store('cover_images', 'public');
-    // file disimpan di storage/app/public/cover_images/namafile.ext
-}
+        // Upload cover image
+        $coverName = null;
+        if ($request->hasFile('cover_image')) {
+            $coverName = $request->file('cover_image')->store('cover_images', 'public');
+            // file disimpan di storage/app/public/cover_images/namafile.ext
+        }
 
-    // Simpan data ke database
-    Movie::create([
-        'title' => $request->title,
-        'slug' => Str::slug($request->title),
-        'synopsis' => $request->synopsis,
-        'category_id' => $request->category_id,
-        'year' => $request->year,
-        'actors' => $request->actors,
-        'cover_image' => $coverName,
-    ]);
+        // Simpan data ke database
+        Movie::create([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'synopsis' => $request->synopsis,
+            'category_id' => $request->category_id,
+            'year' => $request->year,
+            'actors' => $request->actors,
+            'cover_image' => $coverName,
+        ]);
 
-    return redirect('/')->with('success', 'Movie berhasil ditambahkan!');
-}
-    
+        return redirect('/')->with('success', 'Movie berhasil ditambahkan!');
+    }
 }
