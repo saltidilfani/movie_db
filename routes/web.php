@@ -1,7 +1,9 @@
+
 <?php
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MovieController;
+use App\Http\Middleware\RoleAdmin;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -10,17 +12,25 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MovieController::class, 'homepage']);
 
-Route::get('/detail-movie/{id}/{slug}', [MovieController::class, 'detail_movie'])->name('detail_movie');
+Route::get('/movies/{id}', [MovieController::class, 'show'])->name('movies.show');
 
+Route::get('/create-movies', [MovieController::class, 'create'])->name('movies.create')->middleware('auth');
 
-Route::get('/create-movies', [MovieController::class, 'create'])->name('movies.create');
+Route::post('/movie/store', [MovieController::class, 'store'])->name('movies.store')->middleware('auth');
 
-Route::post('/create-movies', [MovieController::class, 'store'])->name('movies.store');
-
-Route::post('/movie/store', [MovieController::class, 'store'])->middleware(('auth'));
-
-Route::get('/login', [AuthController::class, 'loginForm'])-> name('login')->middleware('guest');
+Route::get('/login', [AuthController::class, 'loginForm'])->name('login')->middleware('guest');
 
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout']);
+
+// edit
+Route::get('/movies/{id}/edit', [MovieController::class, 'edit'])->name('movies.edit')->middleware('auth', RoleAdmin::class);
+
+// update
+Route::put('/movies/{id}', [MovieController::class, 'update'])->name('movies.update')->middleware('auth', RoleAdmin::class);
+
+// delete
+Route::delete('/movies/{id}', [MovieController::class, 'destroy'])->name('movies.destroy')->middleware('auth');
+
+

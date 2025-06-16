@@ -1,50 +1,48 @@
 @extends('layouts.template')
 
 @section('content')
-@php
-    use Illuminate\Support\Str;
-@endphp
+@if (session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  {{ session('success') }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 
-<div class="container mt-4">
-    <h2 class="mb-4 fw-bold text-dark">Latest Movie</h2>
+<h1 class="text-dark fw-bold mb-4">Latest Movie</h1>
+<div class="row">
+    @foreach ($movies as $movie)
+    <div class="col-lg-6">
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ asset('covers/' . $movie->cover_image) }}" class="img-fluid rounded-start" alt="{{ $movie->title }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $movie->title }}</h5>
+                        <p class="card-text">{{ \Illuminate\Support\Str::words($movie->synopsis, 20, '...') }}</p>
+                        <p class="card-text mb-3"><strong>Year:</strong> {{ $movie->year }}</p>
+                        <a href="{{ route('movies.show', $movie->id) }}" class="btn btn-primary">See More</a>
 
-    <div class="row">
-        @foreach ($movies as $movie)
-            <div class="col-md-6 mb-4">
-                <div class="card shadow-sm h-100">
-                    <div class="row g-0">
-                        <div class="col-md-4 position-relative">
-                            <img src="{{ asset('storage/' . $movie->cover_image) }}"
-                                 class="img-fluid rounded-start h-100"
-                                 style="object-fit: cover;" 
-                                 alt="{{ $movie->title }}">
-
-                            <div class="position-absolute bottom-0 end-0 bg-dark text-white px-2 py-1 rounded-start">
-                                {{ $movie->rating }}
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title fw-bold">{{ $movie->title }}</h5>
-
-                                <p class="card-text" style="text-align: justify;">
-                                    {{ Str::limit($movie->synopsis, 130, '...') }}
-                                </p>
-
-                                <p class="card-text">
-                                    <strong>Year:</strong> {{ $movie->year }}
-                                </p>
-
-                                <a href="{{ url('/detail-movie/'.$movie->id.'/'.$movie->slug) }}" 
-                                   class="btn btn-success btn-sm">
-                                    See More
-                                </a>
-                            </div>
-                        </div>
+                        @auth
+                        <a href="{{ route('movies.edit', $movie->id) }}" class="btn btn-warning ms-2 text-dark">Edit</a>
+                        @can('delete')
+                        <form action="{{ route('movies.destroy', $movie->id) }}" method="POST" class="d-inline ms-2" onsubmit="return confirm('Are you sure you want to delete this movie?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                        @endcan
+                        @endauth
                     </div>
                 </div>
             </div>
-        @endforeach
+        </div>
     </div>
+    @endforeach
+</div>
+
+<div class="d-flex justify-content-center">
+    {{ $movies->links() }}
 </div>
 @endsection
